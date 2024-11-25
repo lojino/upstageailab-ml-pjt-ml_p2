@@ -1,0 +1,21 @@
+version: "2.3"
+
+services:
+  airflow:
+    build: . # Dockerfile 위치. 현재 디렉토리에서 airflow 폴더 안에 Dockerfile 있음.
+    container_name: airflow-dags-container
+    ports:
+      - "8080:8080" # 호스트의 8080 포트와 컨테이너의 8080 포트를 맵핑 (localhost:8080)
+      - "5001:5001" # 호스트의 5001 포트와 컨테이너의 5000 포트를 맵핑 (localhost:5000)
+    volumes: # 호스트에서 dags 폴더 안에 dag를 정의한 파일을 생성하면 => 컨테이너에서도 실시간 확인이 가능
+      - "./dags:/usr/local/airflow/dags"  # 호스트의 dags 폴더를 컨테이너의 /usr/local/airflow/dags 폴더에 마운트
+      - "./models:/usr/local/airflow/models"  # Add this line
+    environment:
+      - MLFLOW_TRACKING_URI=http://localhost:5000  # Add MLflow connection
+    command: >
+      bash -c "airflow webserver --port 8080 & airflow scheduler"
+
+
+
+
+
