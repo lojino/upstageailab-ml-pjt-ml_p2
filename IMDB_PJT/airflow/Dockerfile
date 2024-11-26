@@ -9,8 +9,9 @@ RUN apt-get update && \
 
 # Airflow 및 Slack Provider 설치
 # - 버전 관리가 어렵다. apache-airflow => 라이브러리 의존성
-RUN pip install apache-airflow apache-airflow-providers-slack \
-pandas scikit-learn mlflow datasets evaluate transformers torch
+RUN pip install --no-cache-dir -r requirements.txt
+# apache-airflow apache-airflow-providers-slack \
+# pandas scikit-learn mlflow datasets evaluate transformers torch
 # requirements.txt
 # - poetry.
 # - venv => poetry
