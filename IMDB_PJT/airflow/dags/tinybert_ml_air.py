@@ -144,7 +144,7 @@ def train_and_evaluate(**kwargs):
 def slack_notification(context, message):
     SlackWebhookOperator(
         task_id='slack_notification_success',
-        webhook_token = 'https://hooks.slack.com/services/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',
+        webhook_token = '***',  # slack webhook url 입력
         message=message,
         dag=context['dag']
     ).execute(context)
