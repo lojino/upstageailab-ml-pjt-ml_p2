@@ -1,0 +1,16 @@
+FROM python:3.10-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y gcc libc-dev curl && apt-get clean
+
+# Install MLflow
+RUN pip install mlflow[sqlalchemy]
+
+# Expose MLflow port
+EXPOSE 5001
+
+# Set working directory
+WORKDIR /mlflow
+
+# Default command to run MLflow server
+CMD ["mlflow", "server", "--backend-store-uri", "sqlite:///mlflow.db", "--default-artifact-root", "/mlruns", "--host", "0.0.0.0", "--port", "5001"]

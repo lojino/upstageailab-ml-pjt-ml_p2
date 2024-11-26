@@ -9,7 +9,8 @@ RUN apt-get update && \
 
 # Airflow 및 Slack Provider 설치
 # - 버전 관리가 어렵다. apache-airflow => 라이브러리 의존성
-RUN pip install apache-airflow apache-airflow-providers-slack pandas scikit-learn mlflow
+RUN pip install apache-airflow apache-airflow-providers-slack \
+pandas scikit-learn mlflow datasets evaluate transformers torch
 # requirements.txt
 # - poetry.
 # - venv => poetry
@@ -37,5 +38,4 @@ COPY dags/ $AIRFLOW_HOME/dags/
 EXPOSE 8080
 
 # Airflow 웹 서버 및 스케줄러 실행, 그리고 관리자 계정 생성
-CMD airflow webserver -p 8080 & \
-    airflow scheduler
+CMD ["airflow", "webserver", "-p", "8080"] 
