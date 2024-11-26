@@ -13,7 +13,8 @@
 
 ## [Airflow 구조]
 ### Task 의존성
-- *********
+- data extract/load > data preprocess > train/evaluate > save model
+- slack은 전체적으로 
 ### Dag(기능) List
 1. 영화 리뷰 추출 (imdb 등)
 2. 추출 데이터 전저치 (토큰화 등)
