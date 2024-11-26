@@ -173,10 +173,11 @@ train_and_evaluate_task = PythonOperator(
     provide_context=True,
     dag=dag,
 )
-slack_notification_task = SlackWebhookOperator(
+slack_notification_task = PythonOperator(
     task_id='slack_notification',
-    slack_webhook_conn_id='slack_webhook',
-    message='Model Training Completed',
+    python_callable=slack_notification,
+    op_kwargs={},
+    provide_context=True,
     dag=dag,
 )
 
