@@ -1,13 +1,10 @@
-version: "3.8"
-
 services:
   airflow-webserver:
     build: .  # Dockerfile 위치
-    container_name: tinybert_ml_airflow_webserver
+    container_name: tinybert_ml_airflow
     ports:
       - "8080:8080"  # Airflow Webserver accessible at localhost:8080
     environment:
-      - MLFLOW_TRACKING_URI=http://mlflow:5001  # Add MLflow connection
       - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
       - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////usr/local/airflow/airflow.db
       - DATA_PATH=/data/IMDB_Dataset.csv  # Dataset path
@@ -22,25 +19,7 @@ services:
     depends_on:
       - mlflow
     command: >
-      bash -c "airflow webserver --port 8080"
-
-  airflow-scheduler:
-    build: .  # Use the same Airflow image
-    container_name: tinybert_ml_airflow_scheduler
-    environment:
-      - MLFLOW_TRACKING_URI=http://mlflow:5001
-      - AIRFLOW__CORE__EXECUTOR=SequentialExecutor
-      - AIRFLOW__CORE__SQL_ALCHEMY_CONN=sqlite:////usr/local/airflow/airflow.db
-    networks:
-      - airflow_network
-    volumes:
-      - "./dags:/usr/local/airflow/dags"
-      - "./models:/usr/local/airflow/models"
-      - "./data:/data"
-    depends_on:
-      - airflow-webserver
-    command: >
-      bash -c "airflow scheduler"
+      bash -c "airflow webserver -p 8080 & airflow scheduler"
 
   mlflow:
     build:
@@ -49,6 +28,8 @@ services:
     container_name: tinybert_ml_mlflow
     ports:
       - "5001:5001"  # MLflow UI accessible at localhost:5001
+    environment:
+      - MLFLOW_TRACKING_URI=http://127.0.0.1:5001  # Add MLflow connection
     networks:
       - airflow_network
     volumes:

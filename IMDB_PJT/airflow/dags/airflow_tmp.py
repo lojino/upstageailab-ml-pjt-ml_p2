@@ -23,7 +23,7 @@ from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
 os.environ['NO_PROXY'] = '*'  # mac에서 airflow로 외부 요청할 때 이슈가 있음. 하여 해당 코드 추가 필요
 
 ## MLflow 환경 설정 (실제 환경에 맞게 수정)
-mlflow.set_tracking_uri(os.getenv('MLFLOW_TRACKING_URI', "http://127.0.0.1:5000"))
+mlflow.set_tracking_uri(os.getenv('MLFLOW_TRACKING_URI'))
 # mlflow.set_tracking_uri("http://127.0.0.1:5000")  # MLflow 서버 URI => mlflow ui
 mlflow.set_experiment("Iris_Model_Training")  # 실험 이름 설정
 

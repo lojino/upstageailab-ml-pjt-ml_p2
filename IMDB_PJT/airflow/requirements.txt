@@ -1,0 +1,11 @@
+pandas
+scikit-learn
+datetime
+datasets
+evaluate
+apache-airflow
+apache-airflow-providers-slack
+mlflow
+transformers
+torch
+accelerate==0.26.0
